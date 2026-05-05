@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Imagine MCP — Creative tools for AI agents</title>
+<link rel="icon" href="assets/imagine-logo.svg"/>
+<link rel="stylesheet" href="colors_and_type.css"/>
+<style>
+  /* =============================================================
+     Imagine MCP landing — strictly on the imagine.art design system
+       - Display: Lemon Milk (uppercase, tight)
+       - Body / UI: Google Sans Flex
+       - Brand: --primary-60 (#8A3FFC)
+       - Accent: --gradient-pink (#FFADE8 → #FF85DD)
+       - Surface: dark mode (--background = neutral-110, near-black)
+     ============================================================= */
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: rgb(var(--background));
+    color: rgb(var(--content-primary));
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  ::selection { background: rgba(138, 63, 252, 0.4); color: #fff; }
+
+  .display { font-family: var(--font-display); font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
+
+  /* ===== Backdrop — subtle brand wash, no rainbow ===== */
+  .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-fx .blob { position: absolute; border-radius: 50%; filter: blur(140px); will-change: transform; opacity: 0.6; }
+  .bg-fx .b1 { width: 900px; height: 900px; left: -20%; top: -25%;
+    background: radial-gradient(circle, rgba(138, 63, 252, 0.55), transparent 65%); }
+  .bg-fx .b2 { width: 700px; height: 700px; right: -10%; top: 5%;
+    background: radial-gradient(circle, rgba(255, 133, 221, 0.30), transparent 65%); }
+  .bg-fx .b3 { width: 800px; height: 800px; left: 25%; top: 70%;
+    background: radial-gradient(circle, rgba(255, 173, 232, 0.25), transparent 65%); }
+  .bg-fx .grain { position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+  .bg-fx .vignette { position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, transparent 35%, rgb(var(--background)) 90%); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+  @media (max-width: 768px) { .container { padding: 0 18px; } }
+
+  /* ===== Nav ===== */
+  nav.top {
+    position: fixed; inset: 0 0 auto 0; z-index: 60;
+    background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid rgb(var(--border-primary));
+  }
+  nav.top .inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo-row { display: inline-flex; align-items: center; gap: 10px; }
+  .logo-row .logo { width: 28px; height: 28px; }
+  .logo-mark { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.12em; font-weight: 500; }
+  .logo-mark .mcp { color: rgb(var(--primary-50)); }
+  nav.top .links { display: flex; gap: 30px; font-size: var(--text-body-sm); color: rgb(var(--content-secondary)); }
+  nav.top .links a { transition: color 180ms; position: relative; }
+  nav.top .links a::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px;
+    background: rgb(var(--primary-50)); transition: width 250ms cubic-bezier(0.16, 1, 0.3, 1); }
+  nav.top .links a:hover { color: #fff; }
+  nav.top .links a:hover::after { width: 100%; }
+  @media (max-width: 900px) { nav.top .links { display: none; } }
+
+  /* ===== Buttons ===== */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: 0;
+    height: 40px; padding: 0 18px; border-radius: var(--radius-full); font-size: var(--text-label-md); font-weight: 500;
+    transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+  .btn:active { transform: translateY(1px); }
+  .btn-brand { background: rgb(var(--primary-60)); color: #fff;
+    box-shadow: 0 4px 24px rgba(138, 63, 252, 0.45); }
+  .btn-brand::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: translateX(-100%); transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-brand:hover { background: rgb(var(--primary-50)); transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(138, 63, 252, 0.65); }
+  .btn-brand:hover::before { transform: translateX(100%); }
+  .btn-ghost { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid rgb(var(--border-secondary)); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgb(var(--border-tertiary)); }
+  .btn-lg { height: 52px; padding: 0 26px; font-size: var(--text-label-lg); }
+
+  /* ===== HERO ===== */
+  section.hero { position: relative; padding: 128px 0 72px; text-align: center; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px;
+    border-radius: var(--radius-full); font-size: var(--text-label-xs); font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(138, 63, 252, 0.10);
+    border: 1px solid rgba(165, 110, 255, 0.22);
+    color: rgb(var(--primary-30));
+    backdrop-filter: blur(8px);
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--primary-50));
+    box-shadow: 0 0 10px rgb(var(--primary-50));
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(165, 110, 255, 0.7); transform: scale(1); }
+    50%     { box-shadow: 0 0 0 8px rgba(165, 110, 255, 0); transform: scale(1.2); }
+  }
+
+  /* HEADLINE — Lemon Milk display */
+  h1.hero-title {
+    font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: clamp(48px, 7.2vw, 96px); line-height: 0.96; letter-spacing: 0.005em;
+    margin: 28px 0 20px; color: #fff;
+  }
+  h1.hero-title .accent {
+    background: linear-gradient(133.98deg, #FFADE8 35.17%, #FF85DD 71.54%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .hero-sub { font-size: var(--text-body-lg); line-height: 1.5; color: rgb(var(--content-secondary));
+    margin: 0 auto 32px; max-width: 580px; letter-spacing: var(--ls-body-lg); }
+
+  .hero-cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== Method tabs (Claude / Cursor / CLI) ===== */
+  .method-tabs {
+    display: inline-flex; padding: 4px; margin: 16px 0 24px;
+    border-radius: var(--radius-full);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgb(var(--border-primary));
+    backdrop-filter: blur(8px);
+    gap: 2px;
+  }
+  .method-tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 36px; padding: 0 18px;
+    border-radius: var(--radius-full); border: 0; background: transparent;
+    color: rgb(var(--content-secondary));
+    font-family: inherit;
+    font-size: var(--text-label-sm); font-weight: 500;
+    cursor: pointer; transition: all 200ms; position: relative;
+  }
+  .method-tab:hover:not(.active) { color: #fff; }
+  .method-tab.active { color: #fff; background: rgb(var(--primary-60));
+    box-shadow: 0 4px 14px rgba(138, 63, 252, 0.45); }
+
+  /* ===== Inline 3-step install ===== */
+  .install-inline {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    width: min(960px, 100%); margin: 12px auto 18px;
+    text-align: left;
+  }
+  @media (max-width: 820px) { .install-inline { grid-template-columns: 1fr; } }
+  .i-step {
+    position: relative;
+    background: rgb(var(--surface-primary));
+    border: 1px solid rgb(var(--border-primary));
+    border-radius: var(--radius-5);
+    padding: 22px 22px 18px;
+    transition: border-color 200ms, transform 200ms;
+  }
+  .i-step:hover { border-color: rgba(165, 110, 255, 0.3); }
+  .i-num {
+    position: absolute; top: 18px; right: 18px;
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 13px; letter-spacing: 0.06em;
+    color: rgb(var(--primary-40)); opacity: 0.7;
+  }
+  .i-title {
+    font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 14px; letter-spacing: 0.06em;
+    color: #fff; margin: 0 0 8px; padding-right: 36px;
+  }
+  .i-body {
+    font-size: var(--text-body-sm); line-height: 1.5;
+    color: rgb(var(--content-secondary));
+    margin: 0 0 14px;
+  }
+  .i-body strong { color: #fff; font-weight: 500; }
+  .i-body em { font-style: italic; color: rgb(var(--primary-30)); }
+  .i-body code { font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: rgb(var(--primary-30)); background: rgba(0,0,0,0.4);
+    padding: 1px 6px; border-radius: 4px; border: 1px solid rgb(var(--border-primary)); }
+  .i-cmd-wrap {
+    display: flex; align-items: center; gap: 6px;
+    background: rgb(var(--neutral-110)); border: 1px solid rgb(var(--border-secondary));
+    border-radius: var(--radius-2); padding: 6px 6px 6px 12px;
+  }
+  .i-cmd {
+    flex: 1; min-width: 0;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    font-size: 12px; color: rgb(var(--primary-30));
+    overflow-x: auto; white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .i-cmd::-webkit-scrollbar { display: none; }
+  .i-copy {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 28px; padding: 0 10px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgb(var(--border-primary));
+    color: rgb(var(--content-secondary));
+    font-family: inherit; font-size: 11px; font-weight: 500;
+    border-radius: 6px; cursor: pointer;
+    transition: all 200ms; flex-shrink: 0;
+  }
+  .i-copy:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .i-copy.ok { color: #6FDC8C; border-color: #6FDC8C; }
+
+  .i-tip { font-size: var(--text-body-sm); color: rgb(var(--content-tertiary)); margin: 12px 0 0; }
+  .i-tip a { color: rgb(var(--primary-30)); border-bottom: 1px dashed rgba(165, 110, 255, 0.4); padding-bottom: 1px; }
+  .i-tip a:hover { color: #fff; border-color: #fff; }
+
+  /* ===== Agent strip ===== */
+  .agents { padding: 56px 0 0; position: relative; z-index: 2; overflow: hidden; }
+  .agents .hdr { font-size: var(--text-label-xs); letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgb(var(--content-tertiary)); text-align: center; margin-bottom: 24px; font-family: var(--font-display); font-weight: 500; }
+  .agents-track { display: flex; gap: 64px; width: max-content; animation: scroll 30s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .agent { display: inline-flex; align-items: center; color: rgb(var(--content-secondary));
+    font-family: var(--font-display); text-transform: uppercase; font-size: 18px; letter-spacing: 0.08em;
+    opacity: 0.55; transition: opacity 220ms, color 220ms; flex-shrink: 0; }
+  .agent:hover { opacity: 1; color: #fff; }
+
+  /* ===== SECTION ===== */
+  .sec { padding: 112px 0; position: relative; }
+  .sec-head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+  .sec-eyebrow { display: inline-block; font-size: var(--text-label-xs); letter-spacing: 0.22em;
+    text-transform: uppercase; color: rgb(var(--primary-40)); margin-bottom: 18px;
+    font-family: var(--font-display); font-weight: 500; }
+  .sec-title { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: clamp(36px, 5vw, 60px); line-height: 1.0; letter-spacing: 0.01em;
+    margin: 0 0 16px; color: #fff; }
+  .sec-title .accent {
+    background: linear-gradient(133.98deg, #FFADE8 35.17%, #FF85DD 71.54%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sec-sub { font-size: var(--text-body-lg); line-height: 1.55; color: rgb(var(--content-secondary)); margin: 0; }
+
+  /* ===== TOOLS GRID ===== */
+  .tools { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; }
+  .t-card {
+    grid-column: span 4;
+    border-radius: var(--radius-6); padding: 26px;
+    background: rgb(var(--surface-primary));
+    border: 1px solid rgb(var(--border-primary));
+    position: relative; overflow: hidden; min-height: 320px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), border-color 320ms;
+  }
+  .t-card::before {
+    content: ''; position: absolute; inset: 0; opacity: 0;
+    background: radial-gradient(380px circle at var(--cx, 50%) var(--cy, 50%), rgba(165, 110, 255, 0.16), transparent 60%);
+    transition: opacity 220ms; pointer-events: none;
+  }
+  .t-card:hover::before { opacity: 1; }
+  .t-card:hover { border-color: rgba(165, 110, 255, 0.3); transform: translateY(-3px); }
+  .t-card.wide { grid-column: span 8; }
+  @media (max-width: 1024px) { .t-card, .t-card.wide { grid-column: span 6; } }
+  @media (max-width: 600px) { .t-card, .t-card.wide { grid-column: span 12; } }
+  .t-card .vis { flex: 1; min-height: 100px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+  .t-head { display: flex; align-items: center; gap: 14px; }
+  .t-icon { width: 44px; height: 44px; border-radius: var(--radius-3);
+    background: rgba(138, 63, 252, 0.15);
+    display: flex; align-items: center; justify-content: center; color: rgb(var(--primary-30)); flex-shrink: 0;
+    border: 1px solid rgba(165, 110, 255, 0.22);
+  }
+  .t-name { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 16px; letter-spacing: 0.06em; line-height: 1.1; color: #fff; margin: 0; }
+  .t-desc { font-size: var(--text-body-sm); color: rgb(var(--content-secondary)); line-height: 1.5; margin: 6px 0 0; }
+  .t-cta { font-family: 'JetBrains Mono','SF Mono',monospace; font-size: 11px; color: rgb(var(--primary-40));
+    opacity: 0.8; padding-top: 10px; border-top: 1px solid rgb(var(--border-primary)); }
+
+  /* viz: image grid */
+  .gen-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; }
+  .gen-grid > div {
+    aspect-ratio: 1; border-radius: var(--radius-2); background-size: cover; background-position: center;
+    animation: tilePulse 4s ease-in-out infinite;
+  }
+  .gen-grid > div:nth-child(1) { animation-delay: 0s; }
+  .gen-grid > div:nth-child(2) { animation-delay: 0.2s; }
+  .gen-grid > div:nth-child(3) { animation-delay: 0.4s; }
+  .gen-grid > div:nth-child(4) { animation-delay: 0.6s; }
+  .gen-grid > div:nth-child(5) { animation-delay: 0.8s; }
+  .gen-grid > div:nth-child(6) { animation-delay: 1.0s; }
+  @keyframes tilePulse {
+    0%, 80%, 100% { filter: brightness(1) saturate(1); transform: scale(1); }
+    50% { filter: brightness(1.15) saturate(1.2); transform: scale(1.02); }
+  }
+
+  /* viz: video */
+  .video-mock { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-3); position: relative; overflow: hidden;
+    background-image:
+      radial-gradient(ellipse at 30% 60%, rgba(255, 173, 232, 0.4), transparent 50%),
+      radial-gradient(ellipse at 70% 40%, rgba(138, 63, 252, 0.55), transparent 55%),
+      linear-gradient(135deg, #1a0a3a, #3a1850 50%, #15082a);
+    border: 1px solid rgb(var(--border-primary));
+  }
+  .video-mock .pushIn { position: absolute; inset: 0;
+    background-image: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.18), transparent 60%);
+    animation: pushIn 5s ease-in-out infinite alternate; }
+  @keyframes pushIn {
+    from { transform: scale(1); opacity: 0.7; }
+    to   { transform: scale(1.2); opacity: 1; }
+  }
+  .video-mock .play { position: absolute; inset: 0; margin: auto; width: 44px; height: 44px;
+    border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(0,0,0,0.4); animation: playPulse 2s ease-in-out infinite; }
+  @keyframes playPulse {
+    0%,100% { box-shadow: 0 0 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(255,255,255,0.5); }
+    50%     { box-shadow: 0 0 24px rgba(0,0,0,0.4), 0 0 0 14px rgba(255,255,255,0); }
+  }
+  .video-mock .play::after { content: ""; width: 0; height: 0;
+    border-left: 12px solid #000; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 4px; }
+  .video-mock .tc { position: absolute; bottom: 10px; left: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 5px; color: #fff; }
+  .video-mock .progress { position: absolute; bottom: 10px; right: 10px; left: 86px; height: 3px;
+    background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+  .video-mock .progress > i { display: block; height: 100%; width: 0; background: #fff;
+    animation: vidProg 4s ease-in-out infinite; }
+  @keyframes vidProg { 0% { width: 0; } 60% { width: 65%; } 100% { width: 100%; } }
+
+  /* viz: BG split */
+  .bgr { width: 100%; aspect-ratio: 1; border-radius: var(--radius-3); overflow: hidden; position: relative; max-width: 220px; }
+  .bgr .imgB { position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 70%, #f4a460 0%, #c4733b 35%, #2a1810 75%, #0d0608 100%); }
+  .bgr .imgA { position: absolute; inset: 0;
+    background-image:
+      linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%),
+      linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.06) 75%);
+    background-size: 16px 16px; background-position: 0 0, 8px 8px;
+    clip-path: polygon(var(--cut, 50%) 0, 100% 0, 100% 100%, var(--cut, 50%) 100%);
+    animation: cutAnim 4.5s ease-in-out infinite alternate;
+  }
+  @keyframes cutAnim { 0% { --cut: 28%; } 100% { --cut: 78%; } }
+  .bgr .div { position: absolute; top: 0; bottom: 0; left: 28%; width: 2px;
+    background: #fff; box-shadow: 0 0 14px rgba(165, 110, 255, 0.8);
+    animation: divPos 4.5s ease-in-out infinite alternate;
+  }
+  @keyframes divPos { 0% { left: 28%; } 100% { left: 78%; } }
+
+  /* viz: upscale */
+  .upscale { display: flex; gap: 10px; align-items: center; width: 100%; }
+  .upscale .px {
+    flex: 1; aspect-ratio: 1; border-radius: var(--radius-2); background-size: cover;
+    background-image:
+      radial-gradient(ellipse at 30% 40%, #f9b572 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, #4a7c8e 0%, transparent 55%),
+      linear-gradient(135deg, #1a3a52 0%, #0a1929 100%);
+    image-rendering: pixelated;
+    animation: focusBlur 4s ease-in-out infinite;
+  }
+  @keyframes focusBlur {
+    0%, 30% { filter: blur(3px); }
+    50%, 80% { filter: blur(0); }
+    100% { filter: blur(3px); }
+  }
+  .upscale .px.sharp { flex: 1.4; animation: none; filter: none;
+    box-shadow: 0 0 0 1px rgba(165, 110, 255, 0.4), 0 8px 24px rgba(0,0,0,0.4); }
+  .upscale .arrow { color: rgb(var(--primary-40)); font-family: 'JetBrains Mono',monospace;
+    font-size: 14px; font-weight: 600; animation: arrowSlide 1.6s ease-in-out infinite; }
+  @keyframes arrowSlide {
+    0%,100% { transform: translateX(-2px); opacity: 0.7; }
+    50% { transform: translateX(3px); opacity: 1; }
+  }
+
+  /* viz: balance */
+  .balance-card { width: 100%; padding: 18px; border-radius: var(--radius-3);
+    background: rgba(0,0,0,0.4); border: 1px solid rgb(var(--border-primary)); }
+  .balance-card .lbl { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 10px; letter-spacing: 0.18em; color: rgb(var(--content-tertiary)); margin-bottom: 8px; }
+  .balance-card .num { font-family: var(--font-display); font-weight: 500;
+    font-size: 38px; letter-spacing: 0.02em; line-height: 1; color: #fff; }
+  .balance-card .bar { margin-top: 14px; height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.08); overflow: hidden; }
+  .balance-card .bar > i { display: block; height: 100%; width: 72%;
+    background: linear-gradient(90deg, rgb(var(--primary-50)), #FFADE8);
+    position: relative; overflow: hidden; }
+  .balance-card .bar > i::after { content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: shineBar 2s linear infinite; }
+  @keyframes shineBar { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+  .balance-card .row { display: flex; justify-content: space-between; font-size: 10.5px;
+    color: rgb(var(--content-tertiary)); margin-top: 8px; font-family: 'JetBrains Mono',monospace; }
+
+  /* viz: listing */
+  .listing { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+  .lrow { display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+    background: rgba(0,0,0,0.3); border: 1px solid rgb(var(--border-primary));
+    border-radius: var(--radius-2); animation: rowCycle 5s ease-in-out infinite; }
+  .lrow:nth-child(1) { animation-delay: 0s; }
+  .lrow:nth-child(2) { animation-delay: 0.4s; }
+  .lrow:nth-child(3) { animation-delay: 0.8s; }
+  @keyframes rowCycle {
+    0%, 90%, 100% { opacity: 1; transform: translateX(0); }
+    93% { opacity: 0; transform: translateX(8px); }
+    96% { opacity: 0; transform: translateX(-8px); }
+  }
+  .lrow .thumb { width: 28px; height: 28px; border-radius: 7px; background-size: cover; flex-shrink: 0; }
+  .lrow .name { flex: 1; font-family: 'JetBrains Mono',monospace; font-size: 11.5px; color: #fff; }
+  .lrow .badge { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 9px; padding: 2px 6px; border-radius: 4px; background: rgba(138, 63, 252, 0.25);
+    color: rgb(var(--primary-30)); letter-spacing: 0.1em; }
+  .lrow .time { font-size: 10.5px; color: rgb(var(--content-tertiary)); font-family: 'JetBrains Mono',monospace; }
+
+  /* viz: music */
+  .music-vis { width: 100%; height: 90px; display: flex; align-items: flex-end; gap: 4px; }
+  .music-vis i { display: block; flex: 1;
+    background: linear-gradient(to top, rgb(var(--primary-60)), #FFADE8);
+    border-radius: 2px;
+    animation: bounceBar 1.4s ease-in-out infinite; transform-origin: bottom; }
+  @keyframes bounceBar { 0%,100% { transform: scaleY(0.15); } 50% { transform: scaleY(1); } }
+
+  /* viz: script */
+  .script-card { width: 100%; padding: 14px; background: rgba(0,0,0,0.4);
+    border: 1px solid rgb(var(--border-primary)); border-radius: var(--radius-3);
+    font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.6;
+    color: rgb(var(--content-secondary)); }
+  .script-card .scene { color: rgb(var(--primary-40)); font-weight: 700; letter-spacing: 0.05em; }
+  .script-card .action { margin: 4px 0; }
+  .script-card .char { text-align: center; color: #fff; font-weight: 700; margin-top: 8px; }
+  .script-card .line { text-align: center; }
+  .typer { display: inline-block; overflow: hidden; white-space: nowrap;
+    border-right: 1.5px solid rgb(var(--primary-40));
+    animation: type 4s steps(28, end) infinite alternate, blink 0.8s step-end infinite;
+    max-width: 100%; }
+  @keyframes type { from { width: 0; } to { width: 100%; } }
+
+  /* ===== INSTALL ===== */
+  .install-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: start; }
+  @media (max-width: 1024px) { .install-grid { grid-template-columns: 1fr; gap: 28px; } }
+  .step { display: flex; gap: 16px; padding: 22px;
+    background: rgb(var(--surface-primary));
+    border: 1px solid rgb(var(--border-primary)); border-radius: var(--radius-4);
+    margin-bottom: 12px; transition: border-color 200ms, transform 200ms; }
+  .step:hover { border-color: rgba(165, 110, 255, 0.35); transform: translateX(4px); }
+  .step .num { flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--radius-3);
+    background: rgba(138, 63, 252, 0.18); color: rgb(var(--primary-30));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 500; font-size: 14px; letter-spacing: 0.04em;
+    border: 1px solid rgba(165, 110, 255, 0.3); }
+  .step h4 { margin: 0 0 4px; font-family: var(--font-display); text-transform: uppercase;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.06em; color: #fff; }
+  .step p { margin: 0; font-size: var(--text-body-sm); color: rgb(var(--content-secondary)); line-height: 1.5; }
+  .step code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgb(var(--primary-30));
+    background: rgba(0,0,0,0.4); padding: 1px 6px; border-radius: 4px; border: 1px solid rgb(var(--border-primary)); }
+
+  .config { background: rgb(var(--surface-primary));
+    border: 1px solid rgb(var(--border-secondary)); border-radius: var(--radius-5);
+    overflow: hidden; position: relative;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+  .config-tabs { display: flex; background: rgba(0,0,0,0.3); border-bottom: 1px solid rgb(var(--border-primary)); }
+  .config-tabs button { flex: 1; padding: 12px 16px;
+    font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.08em;
+    color: rgb(var(--content-tertiary));
+    background: transparent; border: 0; border-bottom: 2px solid transparent;
+    cursor: pointer; transition: all 200ms; }
+  .config-tabs button.active { color: rgb(var(--primary-30)); border-bottom-color: rgb(var(--primary-50));
+    background: rgba(138, 63, 252, 0.06); }
+  .config-tabs button:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.03); }
+  .config-pre { margin: 0; padding: 22px; font-family: 'JetBrains Mono','SF Mono',monospace;
+    font-size: 12.5px; line-height: 1.75; color: rgb(var(--content-secondary)); overflow-x: auto; }
+  .config-pre .k { color: #FFADE8; }
+  .config-pre .s { color: #6FDC8C; }
+  .config-pre .c { color: rgb(var(--content-tertiary)); }
+  .config-pre .v { color: rgb(var(--primary-40)); }
+  .copy-btn { position: absolute; top: 50px; right: 14px; height: 28px; padding: 0 10px;
+    border-radius: var(--radius-2); background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgb(var(--border-primary)); color: rgb(var(--content-secondary));
+    font-size: 11px; font-family: inherit; cursor: pointer; transition: all 200ms; }
+  .copy-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+  .copy-btn.ok { color: #6FDC8C; border-color: #6FDC8C; }
+
+  /* ===== CTA ===== */
+  .cta-card { position: relative; padding: 88px 40px; border-radius: var(--radius-6); overflow: hidden;
+    background: rgb(var(--surface-primary));
+    border: 1px solid rgba(165, 110, 255, 0.22);
+    text-align: center; }
+  .cta-card::before { content: ""; position: absolute; inset: -30%;
+    background:
+      radial-gradient(ellipse at 25% 30%, rgba(138, 63, 252, 0.55), transparent 50%),
+      radial-gradient(ellipse at 75% 70%, rgba(255, 133, 221, 0.40), transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(255, 173, 232, 0.30), transparent 50%);
+    filter: blur(40px);
+    animation: ctaFloat 16s ease-in-out infinite alternate;
+  }
+  @keyframes ctaFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 30px) scale(1.1); }
+  }
+  .cta-card > * { position: relative; z-index: 1; }
+  .cta-card h2 { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: clamp(40px, 5.5vw, 72px); letter-spacing: 0.01em; line-height: 1.0;
+    margin: 18px 0; color: #fff; }
+  .cta-card h2 .accent {
+    background: linear-gradient(133.98deg, #FFADE8 35.17%, #FF85DD 71.54%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cta-card p { font-size: var(--text-body-lg); color: rgb(var(--content-secondary));
+    max-width: 520px; margin: 0 auto 32px; }
+
+  /* FOOTER */
+  footer { padding: 56px 0 36px; border-top: 1px solid rgb(var(--border-primary));
+    margin-top: 48px; position: relative; z-index: 2; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  @media (max-width: 768px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h5 { font-family: var(--font-display); text-transform: uppercase; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.18em; color: rgb(var(--content-tertiary));
+    margin: 0 0 16px; }
+  .foot-col a { display: block; font-size: var(--text-body-sm); color: rgb(var(--content-secondary));
+    margin-bottom: 8px; transition: color 200ms; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bar { display: flex; align-items: center; justify-content: space-between;
+    padding-top: 22px; border-top: 1px solid rgb(var(--border-primary));
+    font-size: var(--text-body-sm); color: rgb(var(--content-tertiary)); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="bg-fx">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+</div>
+
+<!-- Nav -->
+<nav class="top">
+  <div class="container inner">
+    <a href="#" class="logo-row">
+      <img src="assets/imagine-logo.svg" alt="" class="logo"/>
+      <span class="logo-mark">IMAGINE <span class="mcp">MCP</span></span>
+    </a>
+    <div class="links">
+      <a href="#tools">Tools</a>
+      <a href="#install">Install</a>
+      <a href="#">Docs</a>
+      <a href="#">GitHub</a>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <a href="#" class="btn btn-ghost">Sign in</a>
+      <a href="#install" class="btn btn-brand">Get the server</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow"><span class="dot"></span>Imagine MCP · v1.0 now live</span>
+
+    <h1 class="hero-title">Creative tools<br/>for your <span class="accent">agent</span></h1>
+    <p class="hero-sub">The Model Context Protocol server for ImagineArt. Plug eight production-grade creative endpoints — image, video, music, scripts, upscaling, more — into Claude, Cursor, and any MCP client.</p>
+
+    <!-- Install method tabs -->
+    <div class="method-tabs">
+      <button class="method-tab active" data-method="claude">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5.5 6h13l-2 4.5h2.5L14 18h-1.5l1.5-4H10l-1 4H7.5L11 6h-2L7 11H5.5L5.5 6z"/></svg>
+        Claude Desktop
+      </button>
+      <button class="method-tab" data-method="cursor">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l9 18 3-9 9-3z"/></svg>
+        Cursor
+      </button>
+      <button class="method-tab" data-method="cli">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        CLI
+      </button>
+    </div>
+
+    <!-- Inline install steps (Higgsfield pattern) -->
+    <div class="install-inline">
+      <div class="i-step">
+        <div class="i-num">01</div>
+        <h3 class="i-title">Open your client</h3>
+        <p class="i-body" data-claude="Launch Claude Desktop and open <strong>Settings → Connectors → Add custom connector</strong>." data-cursor="Open Cursor and go to <strong>Settings → MCP → Add new MCP server</strong>." data-cli="Open your terminal. Make sure you have <strong>Node 18+</strong> and <code>npx</code> available.">Launch Claude Desktop and open <strong>Settings → Connectors → Add custom connector</strong>.</p>
+      </div>
+      <div class="i-step">
+        <div class="i-num">02</div>
+        <h3 class="i-title">Add the server</h3>
+        <p class="i-body" data-claude="Name it <strong>Imagine</strong> and paste the command:" data-cursor="Add a new server named <strong>imagine</strong> with this configuration:" data-cli="Run the install command — your API key gets prompted on first run:">Name it <strong>Imagine</strong> and paste the command:</p>
+        <div class="i-cmd-wrap">
+          <code class="i-cmd" id="installCmd">npx -y @imagine/mcp-server</code>
+          <button class="i-copy" id="installCopy" aria-label="Copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+      <div class="i-step">
+        <div class="i-num">03</div>
+        <h3 class="i-title">Connect &amp; create</h3>
+        <p class="i-body" data-claude="Click <strong>Add → Connect</strong>, sign in with your <strong>imagine.art</strong> account — and just ask Claude to <em>generate an image</em>." data-cursor="Save and restart Cursor. Ask the agent to <em>generate a hero image</em> — it picks the right tool." data-cli="Server starts on <code>localhost:8787</code>. Point any MCP client at it and start creating.">Click <strong>Add → Connect</strong>, sign in with your <strong>imagine.art</strong> account — and just ask Claude to <em>generate an image</em>.</p>
+      </div>
+    </div>
+
+    <p class="i-tip">If you're using Claude Code or Codex, the <a href="#">CLI</a> works best.</p>
+  </div>
+</section>
+
+<!-- AGENT STRIP -->
+<section class="agents">
+  <div class="hdr">Drops into your favorite agent</div>
+  <div class="agents-track">
+    <span class="agent">Claude</span>
+    <span class="agent">Cursor</span>
+    <span class="agent">Cline</span>
+    <span class="agent">Windsurf</span>
+    <span class="agent">Continue</span>
+    <span class="agent">Open WebUI</span>
+    <span class="agent">Zed</span>
+    <span class="agent">Aider</span>
+    <span class="agent">Claude</span>
+    <span class="agent">Cursor</span>
+    <span class="agent">Cline</span>
+    <span class="agent">Windsurf</span>
+    <span class="agent">Continue</span>
+    <span class="agent">Open WebUI</span>
+    <span class="agent">Zed</span>
+    <span class="agent">Aider</span>
+  </div>
+</section>
+
+<!-- TOOLS GRID -->
+<section id="tools" class="sec">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">V1 toolset</span>
+      <h2 class="sec-title">Eight tools.<br/><span class="accent">One protocol.</span></h2>
+      <p class="sec-sub">Every endpoint your agent needs to take a creative idea from prompt to polished asset, accessible through standard MCP tool calls.</p>
+    </div>
+
+    <div class="tools">
+      <!-- T2I (large) -->
+      <div class="t-card wide reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div>
+          <div><h3 class="t-name">Text to Image</h3><p class="t-desc">ImagineArt 1.5 — hyper-real lighting, accurate text, ~4 seconds.</p></div>
+        </div>
+        <div class="vis">
+          <div class="gen-grid">
+            <div style="background-image: linear-gradient(160deg, #ff8a4c, #b73e58 60%, #2a1331);"></div>
+            <div style="background-image: linear-gradient(180deg, #5d3fd3, #f06292 60%, #ffb74d);"></div>
+            <div style="background-image: linear-gradient(135deg, #1a3a52, #0a1929 70%, #000);"></div>
+            <div style="background-image: linear-gradient(135deg, #f5e8d8, #d4a574 50%, #6b4423);"></div>
+            <div style="background-image: linear-gradient(160deg, #2a4858, #4a7c8e 60%, #d8a64b);"></div>
+            <div style="background-image: linear-gradient(180deg, #0d2436, #2c5f7c, #f9b572);"></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.text_to_image()</div>
+      </div>
+
+      <!-- T2V -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg></div>
+          <div><h3 class="t-name">Text to Video</h3><p class="t-desc">5–10s clips. Seedance 2.0.</p></div>
+        </div>
+        <div class="vis">
+          <div class="video-mock">
+            <div class="pushIn"></div>
+            <div class="play"></div>
+            <div class="tc">00:04 / 00:08</div>
+            <div class="progress"><i></i></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.text_to_video()</div>
+      </div>
+
+      <!-- BG remover -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 14h7v7h-7z"/><path d="m14 3 7 7M3 14l7 7"/></svg></div>
+          <div><h3 class="t-name">Background Remover</h3><p class="t-desc">Pixel-clean alpha. Hair-perfect.</p></div>
+        </div>
+        <div class="vis">
+          <div class="bgr">
+            <div class="imgB"></div>
+            <div class="imgA"></div>
+            <div class="div"></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.remove_bg()</div>
+      </div>
+
+      <!-- Upscale -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4zM14 14h6v6h-6z"/><path d="M10 10l4 4M14 4h4M20 4v4"/></svg></div>
+          <div><h3 class="t-name">Image Upscaler</h3><p class="t-desc">Up to 4× — without the AI smear.</p></div>
+        </div>
+        <div class="vis">
+          <div class="upscale">
+            <div class="px"></div>
+            <span class="arrow">→</span>
+            <div class="px sharp"></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.upscale()</div>
+      </div>
+
+      <!-- Music -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <div><h3 class="t-name">Music Generation</h3><p class="t-desc">Mood, tempo, instruments — synthesized.</p></div>
+        </div>
+        <div class="vis">
+          <div class="music-vis" id="musicVis"></div>
+        </div>
+        <div class="t-cta">imagine.music()</div>
+      </div>
+
+      <!-- Script -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
+          <div><h3 class="t-name">Script Generation</h3><p class="t-desc">Screenplay scenes &amp; ad copy.</p></div>
+        </div>
+        <div class="vis">
+          <div class="script-card">
+            <div class="scene">INT. NEON DINER — NIGHT</div>
+            <div class="action">Rain drums the window. Static hums.</div>
+            <div class="char">MAYA</div>
+            <div class="line"><span class="typer">"You knew this was coming."</span></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.script()</div>
+      </div>
+
+      <!-- List -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg></div>
+          <div><h3 class="t-name">List Generations</h3><p class="t-desc">Recall by type, date, prompt.</p></div>
+        </div>
+        <div class="vis">
+          <div class="listing">
+            <div class="lrow"><div class="thumb" style="background: linear-gradient(135deg, #ff8a4c, #b73e58);"></div><span class="name">portrait_01.png</span><span class="badge">img</span><span class="time">2m</span></div>
+            <div class="lrow"><div class="thumb" style="background: linear-gradient(135deg, #1a3a52, #0a1929);"></div><span class="name">cityscape_4k.mp4</span><span class="badge">vid</span><span class="time">14m</span></div>
+            <div class="lrow"><div class="thumb" style="background: linear-gradient(135deg, #5d3fd3, #f06292);"></div><span class="name">album_cover.png</span><span class="badge">img</span><span class="time">1h</span></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.list()</div>
+      </div>
+
+      <!-- Balance -->
+      <div class="t-card reveal" data-spot>
+        <div class="t-head">
+          <div class="t-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5h4.5a2 2 0 0 1 0 4H9"/></svg></div>
+          <div><h3 class="t-name">Balance Inquiry</h3><p class="t-desc">Real-time credits, in context.</p></div>
+        </div>
+        <div class="vis">
+          <div class="balance-card">
+            <div class="lbl">Credits remaining</div>
+            <div class="num" id="balanceNum">2,847</div>
+            <div class="bar"><i></i></div>
+            <div class="row"><span>used 1,153</span><span>renews · oct 31</span></div>
+          </div>
+        </div>
+        <div class="t-cta">imagine.balance()</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG CTA -->
+<section style="padding: 40px 0 96px;">
+  <div class="container">
+    <div class="cta-card reveal">
+      <span class="eyebrow"><span class="dot"></span>Free to start</span>
+      <h2>Give your agent<br/>a <span class="accent">creative engine</span></h2>
+      <p>One install. Eight tools. Endless possibilities. Imagine MCP is open source — bring your favorite client and start creating today.</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <a href="#install" class="btn btn-brand btn-lg">Get Imagine MCP</a>
+        <a href="#" class="btn btn-ghost btn-lg">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/></svg>
+          Star on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="logo-row" style="margin-bottom: 16px;">
+          <img src="assets/imagine-logo.svg" alt="" class="logo"/>
+          <span class="logo-mark">IMAGINE <span class="mcp">MCP</span></span>
+        </a>
+        <p style="font-size: 14px; color: rgb(var(--content-secondary)); max-width: 320px; margin: 0;">An open-source MCP server by Vyro AI. Bring ImagineArt's creative tools to any agent.</p>
+      </div>
+      <div class="foot-col"><h5>Product</h5><a href="#tools">Tools</a><a href="#install">Install</a><a href="#">Pricing</a></div>
+      <div class="foot-col"><h5>Resources</h5><a href="#">Docs</a><a href="#">API</a><a href="#">Changelog</a></div>
+      <div class="foot-col"><h5>Company</h5><a href="https://imagine.art">imagine.art</a><a href="#">Twitter</a><a href="#">Discord</a></div>
+    </div>
+    <div class="foot-bar">
+      <div>© 2026 Vyro AI. All rights reserved.</div>
+      <div style="display:flex; gap:24px;"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Reveal */
+  const io = new IntersectionObserver((es) => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Method tabs (Claude / Cursor / CLI) */
+  (() => {
+    const tabs = document.querySelectorAll('.method-tab');
+    const cmds = {
+      claude: 'npx -y @imagine/mcp-server',
+      cursor: 'npx -y @imagine/mcp-server',
+      cli: 'npm i -g @imagine/mcp-server && imagine-mcp'
+    };
+    const cmdEl = document.getElementById('installCmd');
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const m = t.dataset.method;
+      cmdEl.textContent = cmds[m];
+      document.querySelectorAll('.i-body').forEach(p => {
+        const v = p.getAttribute('data-' + m);
+        if (v) p.innerHTML = v;
+      });
+    }));
+  })();
+
+  /* Copy install command */
+  (() => {
+    const btn = document.getElementById('installCopy');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const txt = document.getElementById('installCmd').textContent;
+      navigator.clipboard.writeText(txt).catch(() => {});
+      const span = btn.querySelector('span');
+      const orig = span.textContent;
+      span.textContent = 'Copied';
+      btn.classList.add('ok');
+      setTimeout(() => { span.textContent = orig; btn.classList.remove('ok'); }, 1600);
+    });
+  })();
+
+  /* unused typewriter (kept harmless) */
+  (() => {
+    const out = document.getElementById('typeOut');
+    if (!out) return;
+    const prompts = [
+      "A cinematic portrait of a woman in a translucent rain jacket, neon reflections, 50mm film",
+      "Animate the third image with a slow camera push-in, dreamy color grade",
+      "Generate a synthwave track at 110 BPM with warm analog pads",
+      "Upscale my last render to 4K and remove the background",
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    function tick() {
+      const p = prompts[pi];
+      if (!deleting) {
+        out.textContent = p.slice(0, ++ci);
+        if (ci === p.length) { deleting = true; setTimeout(tick, 2200); return; }
+      } else {
+        out.textContent = p.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % prompts.length; }
+      }
+      setTimeout(tick, deleting ? 18 : 32 + Math.random() * 30);
+    }
+    tick();
+  })();
+
+  /* Music bars */
+  (() => {
+    const v = document.getElementById('musicVis');
+    let html = '';
+    for (let i = 0; i < 22; i++) html += `<i style="animation-delay:${(i * 0.06).toFixed(2)}s"></i>`;
+    v.innerHTML = html;
+  })();
+
+  /* Balance counter */
+  (() => {
+    const el = document.getElementById('balanceNum');
+    if (!el) return;
+    let started = false;
+    function f() {
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / 1500);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(2847 * e).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+    new IntersectionObserver((es, o) => {
+      if (es[0].isIntersecting && !started) { started = true; f(); o.disconnect(); }
+    }).observe(el);
+  })();
+
+  /* Spotlight on cards */
+  document.querySelectorAll('[data-spot]').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+
+  /* (legacy config tabs removed — replaced by hero method tabs) */
+</script>
+</body>
+</html>
