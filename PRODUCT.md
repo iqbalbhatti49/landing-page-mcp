@@ -22,10 +22,10 @@ Plain, technical, unhurried. Sentences end in periods. No exclamation points, no
 
 # Brand
 
-- Brand color: `#8A3FFC` (`--primary-60`). Purple does the heavy lifting; pink is no longer used.
-- Display: Lemon Milk (uppercase, medium). Used on headings, eyebrows, tool names.
-- Body / UI: Google Sans Flex.
-- Accent typographic move: lowercase serif italic against the all-caps display, as an editorial break — used sparingly on a single accent word in the hero.
+- Brand color: `#8A3FFC` (`--primary-60`). Purple does the heavy lifting; pink is no longer used. Secondary accent `#FB5607` (orange) appears in imagine.art's production palette and is used sparingly here (e.g., script scene heading).
+- Display + Body / UI: Google Sans Flex (variable axis 100–900). Same family imagine.art uses across hero, headings, body, and UI.
+- Code surfaces use the system monospace stack (`ui-monospace`, `SF Mono`, `Menlo`) — matches imagine.art's restraint of not loading a developer-mono webfont.
+- Section eyebrows are short mono uppercase labels (`v1.0`, `Toolset`, `Works with`, `Ship it`) — the consistent typographic device that ties sections together.
 
 # Strategic principles
 

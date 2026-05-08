@@ -1,0 +1,54 @@
+import { ButtonLink } from "@/components/primitives/Button";
+import { CTA_VIDEO } from "@/lib/data/tools";
+
+export function CtaBleed() {
+  return (
+    <section
+      id="cta"
+      className="relative pt-36 pb-40 overflow-hidden border-y border-border-primary isolate"
+    >
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={CTA_VIDEO.poster}
+        className="absolute inset-0 w-full h-full object-cover -z-[2] opacity-[0.30]"
+      >
+        <source src={CTA_VIDEO.src} type="video/mp4" />
+      </video>
+      <div
+        className="absolute inset-0 -z-[1]"
+        style={{
+          background:
+            "linear-gradient(180deg, var(--color-background) 0%, rgb(15 15 15 / 0.65) 25%, rgb(15 15 15 / 0.65) 75%, var(--color-background) 100%)",
+        }}
+      />
+      <div className="container-page">
+        <div className="font-mono text-[12px] tracking-[0.06em] uppercase text-content-tertiary mb-[18px]">
+          Ship it
+        </div>
+        <h2
+          className="font-display font-semibold leading-[0.96] tracking-[-0.035em] text-white text-balance my-[18px] max-w-[14ch]"
+          style={{ fontSize: "clamp(48px, 7.6vw, 112px)" }}
+        >
+          Plug in. Generate.
+        </h2>
+        <p className="font-sans text-[18px] leading-[1.55] text-content-secondary max-w-[56ch] mb-8">
+          One install, eight tools, any client speaking the Model Context
+          Protocol. Sign in with your imagine.art account and start calling
+          tools from your agent.
+        </p>
+        <div className="flex gap-3 flex-wrap">
+          <ButtonLink href="#install" variant="brand" size="lg">
+            Get Imagine MCP
+          </ButtonLink>
+          <ButtonLink href="#" variant="ghost" size="lg">
+            Read the docs
+          </ButtonLink>
+        </div>
+      </div>
+    </section>
+  );
+}
