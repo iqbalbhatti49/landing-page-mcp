@@ -16,7 +16,7 @@ export function Hero() {
 
         <h1
           className="font-display font-semibold leading-[0.96] tracking-[-0.035em] m-0 mb-[22px] text-white text-balance max-w-[18ch]"
-          style={{ fontSize: "clamp(36px, 5.6vw, 80px)" }}
+          style={{ fontSize: "clamp(42px, 5vw, 64px)" }}
         >
           Creative tools for any agent.
         </h1>
