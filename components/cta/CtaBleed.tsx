@@ -26,16 +26,16 @@ export function CtaBleed() {
         }}
       />
       <div className="container-page">
-        <div className="font-mono text-[12px] tracking-[0.06em] uppercase text-content-tertiary mb-[18px]">
+        <div className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-content-tertiary mb-[18px]">
           Ship it
         </div>
         <h2
-          className="font-display font-semibold leading-[0.96] tracking-[-0.035em] text-white text-balance my-[18px] max-w-[14ch]"
-          style={{ fontSize: "clamp(48px, 7.6vw, 112px)" }}
+          className="font-display font-semibold leading-[1.2] tracking-[-0.2px] text-white text-balance my-[18px] max-w-[14ch]"
+          style={{ fontSize: "clamp(32px, 4vw, 56px)" }}
         >
           Plug in. Generate.
         </h2>
-        <p className="font-sans text-[18px] leading-[1.55] text-content-secondary max-w-[56ch] mb-8">
+        <p className="font-sans text-[18px] leading-[1.7] text-content-secondary max-w-[56ch] mb-8">
           One install, eight tools, any client speaking the Model Context
           Protocol. Sign in with your imagine.art account and start calling
           tools from your agent.

@@ -4,7 +4,7 @@ export function AgentsRow() {
   return (
     <section className="py-24 pb-10">
       <div className="container-page">
-        <div className="font-mono text-[12px] tracking-[0.06em] uppercase text-content-tertiary mb-7">
+        <div className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-content-tertiary mb-7">
           Works with
         </div>
         <div className="flex flex-wrap gap-y-7 gap-x-10 font-display">

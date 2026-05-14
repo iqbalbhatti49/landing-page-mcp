@@ -10,16 +10,16 @@ export function ToolsSection() {
     >
       <div className="container-page">
         <Reveal className="max-w-[720px] m-0 mb-14">
-          <div className="font-mono text-[12px] tracking-[0.06em] uppercase text-content-tertiary mb-[18px]">
+          <div className="font-mono text-[10.5px] font-semibold tracking-[1.8px] uppercase text-content-tertiary mb-[18px]">
             Toolset
           </div>
           <h2
-            className="font-display font-semibold leading-[1.0] tracking-[-0.028em] m-0 mb-4 text-white text-balance"
-            style={{ fontSize: "clamp(40px, 5.4vw, 72px)" }}
+            className="font-display font-semibold leading-[1.05] tracking-[-0.5px] m-0 mb-4 text-white text-balance"
+            style={{ fontSize: "clamp(32px, 4vw, 52px)" }}
           >
             Eight functions for your agent.
           </h2>
-          <p className="font-sans text-[18px] leading-[1.55] text-content-secondary m-0 max-w-[60ch] tracking-[-0.005em]">
+          <p className="font-sans text-[18px] leading-[1.7] text-content-secondary m-0 max-w-[60ch] tracking-[-0.005em]">
             Every endpoint is a standard MCP tool call. Your imagine.art
             account, your model selection, your asset library.
           </p>
