@@ -35,22 +35,19 @@ export function UpscaleTwoPane({ src, sourceLabel, resultLabel }: Props) {
     >
       {/* After: sharp */}
       <img
-        src={src}
+        src="/sharp.png"
         alt=""
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* Before: blurry/pixelated, clipped to left of handle */}
+      {/* Before: blurry, clipped to left of handle */}
       <img
-        src={src}
+        src="/blurry.png"
         alt=""
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          clipPath: `inset(0 ${100 - pos}% 0 0)`,
-          filter: "blur(2.5px) saturate(0.45)",
-        }}
+        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       />
 
       {/* Divider line */}
