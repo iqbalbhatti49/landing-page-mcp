@@ -10,7 +10,7 @@ export function T2IGrid({}: Props) {
       <img
         src="/text-to-image.jpg"
         alt="Text to image preview"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain p-4"
       />
     </div>
   );
