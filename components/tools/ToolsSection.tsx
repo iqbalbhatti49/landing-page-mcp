@@ -29,15 +29,21 @@ export function ToolsSection() {
         {TOOLS.map((tool, i) => (
           <Reveal
             key={tool.fn}
-            className="border-t border-border-primary py-14 lg:py-16"
+            className="border-t border-border-primary py-14 lg:py-16 relative overflow-hidden"
           >
-            <div className="flex gap-12 lg:gap-20">
+            {/* Large background number */}
+            <span
+              aria-hidden="true"
+              className="absolute -top-3 left-0 font-display font-semibold leading-none text-white select-none pointer-events-none"
+              style={{ fontSize: "clamp(100px, 13vw, 180px)", opacity: 0.045 }}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            <div className="flex gap-12 lg:gap-20 relative">
 
               {/* Left: label column — desktop only */}
               <div className="hidden lg:flex flex-col w-[160px] shrink-0 pt-[3px]">
-                <span className="font-mono text-[11px] text-content-tertiary mb-5">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
                 <span className="font-mono text-[11px] text-content-tertiary leading-[1.7] break-all">
                   {tool.fn}
                 </span>
