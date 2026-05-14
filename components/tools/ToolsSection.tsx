@@ -91,9 +91,11 @@ export function ToolsSection() {
             <div className="sticky top-[calc(50vh-230px)]">
               <div
                 key={activeIndex}
-                className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[460px] flex items-stretch [&>*]:w-full animate-tool-slide-up"
+                className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[460px] relative animate-tool-slide-up"
               >
-                <ToolVisual tool={TOOLS[activeIndex]} />
+                <div className="absolute inset-0">
+                  <ToolVisual tool={TOOLS[activeIndex]} />
+                </div>
               </div>
             </div>
           </div>

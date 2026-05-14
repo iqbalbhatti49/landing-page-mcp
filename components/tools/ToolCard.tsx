@@ -14,8 +14,10 @@ export function ToolCard({ tool, index }: Props) {
       delay={index * 60}
       className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden flex flex-col transition-colors duration-200 hover:border-border-secondary"
     >
-      <div className="flex-1 min-h-[180px] flex items-stretch [&>*]:w-full">
-        <ToolVisual tool={tool} />
+      <div className="relative min-h-[180px] flex-1">
+        <div className="absolute inset-0">
+          <ToolVisual tool={tool} />
+        </div>
       </div>
       <div className="p-5 border-t border-border-primary">
         <div className="font-mono text-[11px] font-medium text-content-tertiary tracking-[-0.005em] mb-[6px]">
