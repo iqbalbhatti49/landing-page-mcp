@@ -26,7 +26,7 @@ export function ToolsSection() {
           </p>
         </Reveal>
 
-        <div className="grid grid-cols-12 gap-[14px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[14px]">
           {TOOLS.map((tool, i) => (
             <ToolCard key={tool.fn} tool={tool} index={i} />
           ))}
