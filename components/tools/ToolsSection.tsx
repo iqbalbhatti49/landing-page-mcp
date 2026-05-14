@@ -67,7 +67,7 @@ export function ToolsSection() {
                   {tool.desc}
                 </p>
 
-                <div className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[340px] relative">
+                <div className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[520px] relative">
                   <div className="absolute inset-0 flex flex-col justify-center">
                     <ToolVisual tool={tool} />
                   </div>
