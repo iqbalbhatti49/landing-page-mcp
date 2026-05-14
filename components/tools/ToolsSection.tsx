@@ -16,12 +16,12 @@ export function ToolsSection() {
             className="font-display font-semibold leading-[1.05] tracking-[-0.5px] m-0 mb-4 text-white text-balance"
             style={{ fontSize: "clamp(32px, 4vw, 52px)" }}
           >
-            Eight functions{" "}
-            <span className="text-white/35">for your agent.</span>
+            Eight tools.{" "}
+            <span className="text-white/35">Infinite creative output.</span>
           </h2>
           <p className="font-sans text-[18px] leading-[1.7] text-content-secondary m-0 max-w-[60ch] tracking-[-0.005em]">
-            Every endpoint is a standard MCP tool call. Your imagine.art
-            account, your model selection, your asset library.
+            Eight creative capabilities, callable from Claude, Cursor, or any
+            MCP client. Your account, your models, your output.
           </p>
         </Reveal>
 
