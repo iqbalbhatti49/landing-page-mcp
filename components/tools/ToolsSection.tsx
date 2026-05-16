@@ -62,12 +62,10 @@ export function ToolsSection() {
                 </p>
               </div>
 
-              {/* Right: visualization */}
+              {/* Right: widget rendering — matches the in-agent UI */}
               <div className="flex-1 min-w-0">
-                <div className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[520px] relative">
-                  <div className="absolute inset-0 flex flex-col justify-center">
-                    <ToolVisual tool={tool} />
-                  </div>
+                <div className="h-[520px] relative">
+                  <ToolVisual tool={tool} />
                 </div>
               </div>
 

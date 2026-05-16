@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FOOTER_COLUMNS, FOOTER_LEGAL } from "@/lib/data/nav";
+import { FOOTER_COLUMNS } from "@/lib/data/nav";
 
 export function SiteFooter() {
   return (
     <footer className="py-16 pb-10 border-t border-border-primary">
       <div className="container-page">
-        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-10 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr] gap-10 mb-10">
           <div>
             <Link
-              href="#"
+              href="#hero"
               className="inline-flex items-center gap-[10px] mb-[14px]"
             >
               <Image
@@ -46,19 +46,8 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-between pt-[22px] border-t border-border-primary font-sans text-[13px] text-content-tertiary">
-          <div>© 2026 Vyro AI</div>
-          <div className="flex gap-6">
-            {FOOTER_LEGAL.map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                className="hover:text-white transition-colors"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
+        <div className="pt-[22px] border-t border-border-primary font-sans text-[13px] text-content-tertiary">
+          © 2026 Vyro AI
         </div>
       </div>
     </footer>

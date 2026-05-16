@@ -7,7 +7,7 @@ export function SiteNav() {
   return (
     <nav className="sticky top-0 z-[60] bg-background border-b border-border-primary">
       <div className="container-page flex items-center justify-between h-16">
-        <Link href="#" className="inline-flex items-center gap-[10px]">
+        <Link href="#hero" className="inline-flex items-center gap-[10px]">
           <Image
             src="/imagine-logo.svg"
             alt=""
@@ -34,9 +34,6 @@ export function SiteNav() {
         </div>
 
         <div className="flex gap-2 items-center">
-          <ButtonLink href="#" variant="ghost">
-            Sign in
-          </ButtonLink>
           <ButtonLink href="#install" variant="brand">
             Get the server
           </ButtonLink>
