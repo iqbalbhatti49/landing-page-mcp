@@ -9,10 +9,10 @@ export type ClientId =
   | "zed"
   | "codex-cli";
 
-const WORDMARKS: Partial<Record<ClientId, string>> = {
-  cursor:   "/agents/wordmarks/cursor.svg",
-  windsurf: "/agents/wordmarks/windsurf.svg",
-  cline:    "/agents/wordmarks/cline.svg",
+const WORDMARKS: Partial<Record<ClientId, { src: string; scale?: number }>> = {
+  cursor:   { src: "/agents/wordmarks/cursor.svg" },
+  windsurf: { src: "/agents/wordmarks/windsurf.svg", scale: 1.45 },
+  cline:    { src: "/agents/wordmarks/cline.svg" },
 };
 
 export function hasWordmark(id: ClientId): boolean {
@@ -20,15 +20,16 @@ export function hasWordmark(id: ClientId): boolean {
 }
 
 export function ClientWordmark({ id }: { id: ClientId }) {
-  const src = WORDMARKS[id];
-  if (!src) return null;
+  const wm = WORDMARKS[id];
+  if (!wm) return null;
+  const h = `${0.85 * (wm.scale ?? 1)}em`;
   return (
     <img
-      src={src}
+      src={wm.src}
       alt=""
       aria-hidden="true"
       className="inline-block align-middle relative -top-[0.05em] shrink-0 object-contain"
-      style={{ height: "0.85em", width: "auto" }}
+      style={{ height: h, width: "auto" }}
     />
   );
 }

@@ -17,7 +17,8 @@ export function AgentsRow() {
                   <img
                     src={a.wordmark}
                     alt={a.name}
-                    className="h-[18px] w-auto object-contain"
+                    className="w-auto object-contain"
+                    style={{ height: `${18 * (a.wordmarkScale ?? 1)}px` }}
                   />
                 ) : (
                   <div className="flex items-center gap-3">
