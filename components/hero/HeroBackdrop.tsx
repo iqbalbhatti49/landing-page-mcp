@@ -6,7 +6,9 @@ export function HeroBackdrop() {
       className="absolute inset-0 overflow-hidden z-0 pointer-events-none bg-background"
       aria-hidden="true"
     >
-      <DotWaveCanvas />
+      <div className="absolute inset-x-0 bottom-0" style={{ top: "50%" }}>
+        <DotWaveCanvas />
+      </div>
       <div
         className="absolute inset-0"
         style={{
