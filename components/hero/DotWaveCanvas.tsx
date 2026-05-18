@@ -92,6 +92,7 @@ export function DotWaveCanvas() {
       ref={canvasRef}
       aria-hidden="true"
       className="block w-full h-full pointer-events-none"
+      style={{ transform: "rotate(180deg)" }}
     />
   );
 }
