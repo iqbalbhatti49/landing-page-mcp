@@ -91,7 +91,7 @@ export function DotWaveCanvas() {
       ref={canvasRef}
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.45 }}
+      style={{ opacity: 0.7 }}
     />
   );
 }
