@@ -58,6 +58,12 @@ const AudioIcon = (
   </svg>
 );
 
+function fmt(s: number) {
+  const m = Math.floor(s / 60);
+  const ss = Math.floor(s % 60).toString().padStart(2, "0");
+  return `${m}:${ss}`;
+}
+
 export function T2VPlayer({ src, poster, durationLabel }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const tcRef    = useRef<HTMLDivElement>(null);
