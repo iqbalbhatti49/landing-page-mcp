@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { CopyButton } from "./CopyButton";
 import {
   INSTALL_METHODS,
@@ -75,12 +74,13 @@ export function InstallPanel() {
 
       <p className="font-sans text-[14px] text-content-tertiary mt-[18px]">
         Using Claude Code or Codex? The{" "}
-        <Link
-          href="#"
-          className="text-primary-30 border-b border-[rgb(165_110_255_/_0.4)] pb-px hover:text-white hover:border-white"
+        <button
+          type="button"
+          onClick={() => setActive("cli")}
+          className="text-primary-30 border-b border-[rgb(165_110_255_/_0.4)] pb-px hover:text-white hover:border-white cursor-pointer"
         >
           CLI
-        </Link>{" "}
+        </button>{" "}
         works best.
       </p>
     </div>

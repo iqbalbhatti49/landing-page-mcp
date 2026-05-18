@@ -5,6 +5,10 @@ const TOTAL = 5000;
 const PCT   = (USED / TOTAL) * 100;
 
 export function BalanceJson() {
+  const used = 2840;
+  const total = 5000;
+  const pct = (used / total) * 100;
+
   return (
     <div className="w-full h-full flex flex-col gap-3 p-5">
 

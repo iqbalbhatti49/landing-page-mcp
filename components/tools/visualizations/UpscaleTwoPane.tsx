@@ -19,11 +19,15 @@ export function UpscaleTwoPane({ sourceLabel, resultLabel }: Props) {
     const el = containerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    setPos(Math.min(94, Math.max(6, ((clientX - rect.left) / rect.width) * 100)));
+    setPos(
+      Math.min(94, Math.max(6, ((clientX - rect.left) / rect.width) * 100)),
+    );
   }, []);
 
   useEffect(() => {
-    const onUp = () => { dragging.current = false; };
+    const onUp = () => {
+      dragging.current = false;
+    };
     window.addEventListener("mouseup", onUp);
     return () => window.removeEventListener("mouseup", onUp);
   }, []);
