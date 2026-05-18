@@ -150,6 +150,10 @@
     transform: translate3d(0, 0, 0);
   }
 
+  /* Hide scrollbar cross-browser */
+  .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
   /* Team cards — responsive widths */
   .team-card-item {
     flex: 0 0 80%;

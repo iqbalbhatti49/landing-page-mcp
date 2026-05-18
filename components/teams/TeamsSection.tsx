@@ -100,8 +100,8 @@ export function TeamsSection() {
         {/* Card grid */}
         <div
           ref={gridRef}
-          className="flex gap-6 overflow-x-auto"
-          style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
+          className="flex gap-6 overflow-x-auto no-scrollbar"
+          style={{ scrollSnapType: "x mandatory" }}
         >
           {CARDS.map((card, i) => (
             <Reveal
