@@ -66,7 +66,7 @@ export function DotWaveCanvas() {
           if (p.sx < -10 || p.sx > W + 10 || p.sy < -10 || p.sy > H + 10) continue;
 
           const r     = Math.max(0.5, 4 * p.scale);
-          const alpha = Math.min(0.6, p.scale * 0.9);
+          const alpha = Math.min(0.95, p.scale * 1.4);
 
           ctx!.beginPath();
           ctx!.arc(p.sx, p.sy, r, 0, Math.PI * 2);
@@ -91,7 +91,7 @@ export function DotWaveCanvas() {
       ref={canvasRef}
       aria-hidden="true"
       className="block w-full h-full pointer-events-none"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 1 }}
     />
   );
 }
