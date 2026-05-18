@@ -47,7 +47,7 @@ export function Hero() {
           >
             Creative tools for
             <br />
-            <span key={client.id} className="inline-flex items-center gap-[0.2em] animate-word-in whitespace-nowrap">
+            <span key={client.id} className="inline-flex items-center gap-[0.45em] animate-word-in whitespace-nowrap">
               <ClientIcon id={client.id} />
               {client.name}
             </span>
