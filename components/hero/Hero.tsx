@@ -47,14 +47,14 @@ export function Hero() {
           >
             Creative tools for
             <br />
-            <span key={client.id} className="inline-flex items-center gap-[0.45em] animate-word-in whitespace-nowrap">
+            <span key={client.id} className="inline-flex items-center animate-word-in whitespace-nowrap">
               {hasWordmark(client.id) ? (
                 <ClientWordmark id={client.id} />
               ) : (
-                <>
+                <span className="inline-flex items-center gap-[0.4em]">
                   <ClientIcon id={client.id} />
                   {client.name}
-                </>
+                </span>
               )}
             </span>
           </h1>
