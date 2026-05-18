@@ -6,83 +6,43 @@ interface Props {
   items: ListingItem[];
 }
 
-const FilterIcon = (
-  <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-    <path
-      d="M2 3H10M3.5 6H8.5M5 9H7"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const DateIcon = (
-  <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-    <rect
-      x="1.5"
-      y="2.5"
-      width="9"
-      height="8"
-      rx="1"
-      stroke="currentColor"
-      strokeWidth="1.2"
-    />
-    <path
-      d="M1.5 5H10.5M4 1.5V3M8 1.5V3"
-      stroke="currentColor"
-      strokeWidth="1.2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
 const badgeColor: Record<string, string> = {
-  vid: "bg-[#FFE5D9] text-[#B83B00]",
-  img: "bg-[#E8DEF7] text-[#5A2EBE]",
-  aud: "bg-[#DDEFE0] text-[#256B3A]",
+  vid: "bg-primary-90 text-primary-30",
+  img: "bg-surface-secondary text-content-secondary",
+  aud: "bg-surface-secondary text-content-secondary",
 };
 
 function ListRow({ item }: { item: ListingItem }) {
   return (
-    <ChatMock
-      prompt="Show my recent generations"
-      status="3 recent generations"
-    >
-      <div className="absolute inset-0 rounded-xl overflow-hidden">
-        <img
-          src="/list-generation.jpg"
-          alt="List generations"
-          className="absolute inset-0 w-full h-full object-cover object-top"
-        />
+    <div className="flex items-center gap-3 px-3 py-2.5 border-b border-border-primary last:border-0">
+      <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0 bg-surface-secondary">
+        <img src={item.thumb} alt="" className="w-full h-full object-cover" />
       </div>
-    </ChatMock>
+      <div className="flex-1 min-w-0">
+        <div className="font-sans text-[12.5px] font-medium text-white truncate">{item.name}</div>
+        <div className="font-sans text-[11px] text-content-tertiary">{item.time} ago</div>
+      </div>
+      <span className={`font-mono text-[10px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide ${badgeColor[item.badge] ?? "bg-surface-secondary text-content-secondary"}`}>
+        {item.badge}
+      </span>
+    </div>
   );
 }
 
 export function ListingRows({ items }: Props) {
   return (
-    <WidgetFrame
-      title="Your generations"
-      description={
-        <>Browse and retrieve any generation by type, date, or prompt.</>
-      }
-      tags={
-        <>
-          <Pill variant="filled" icon={FilterIcon}>
-            All types
-          </Pill>
-          <Pill icon={DateIcon}>Last 30 days</Pill>
-        </>
-      }
-    >
-      <div className="w-full h-full bg-white rounded-[14px] p-2 overflow-hidden shadow-[0_1px_2px_rgba(20,10,40,0.06)]">
-        <div className="flex flex-col">
+    <ChatMock prompt="Show my recent generations" status={`${items.length} results`}>
+      <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col" style={{ background: "#111" }}>
+        <div className="flex items-center justify-between px-3 py-2 border-b border-border-primary shrink-0" style={{ background: "#0a0a0a" }}>
+          <span className="font-mono text-[9px] tracking-[1.4px] uppercase text-content-tertiary">generations</span>
+          <span className="font-mono text-[9px] text-content-tertiary opacity-60">{items.length} items</span>
+        </div>
+        <div className="flex-1 overflow-hidden">
           {items.map((it, i) => (
             <ListRow key={i} item={it} />
           ))}
         </div>
       </div>
-    </WidgetFrame>
+    </ChatMock>
   );
 }
