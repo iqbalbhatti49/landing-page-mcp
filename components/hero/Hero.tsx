@@ -51,7 +51,7 @@ export function Hero() {
               {hasWordmark(client.id) ? (
                 <ClientWordmark id={client.id} />
               ) : (
-                <span className="inline-flex items-center gap-[0.4em]">
+                <span className="inline-flex items-center gap-[0.4em]" style={{ fontSize: "0.75em" }}>
                   <ClientIcon id={client.id} />
                   {client.name}
                 </span>

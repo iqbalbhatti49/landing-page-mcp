@@ -21,17 +21,17 @@ export function AgentsRow() {
                     style={{ height: `${18 * (a.wordmarkScale ?? 1)}px` }}
                   />
                 ) : (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     {a.logo && (
                       <img
                         src={a.logo}
                         alt=""
                         aria-hidden="true"
-                        className="h-[18px] w-auto object-contain shrink-0"
+                        className="h-[14px] w-auto object-contain shrink-0"
                         style={a.invert ? { filter: "brightness(0) invert(1)" } : undefined}
                       />
                     )}
-                    <span className="font-display text-[18px] sm:text-[20px] font-medium tracking-[-0.01em] text-content-secondary group-hover:text-white transition-colors">
+                    <span className="font-display text-[14px] font-medium tracking-[-0.01em] text-content-secondary group-hover:text-white transition-colors">
                       {a.name}
                     </span>
                   </div>
