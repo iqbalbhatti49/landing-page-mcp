@@ -60,8 +60,6 @@ export function SiteNav() {
               <a
                 key={l.label}
                 href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="px-[14px] py-[6px] rounded-lg font-sans text-[14px] font-medium tracking-[0.14px] whitespace-nowrap transition-colors duration-150"
                 style={{ color: "rgba(255,255,255,0.75)" }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; }}
@@ -134,8 +132,6 @@ export function SiteNav() {
                 <a
                   key={l.label}
                   href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}
                   className="block text-center px-8 py-2.5 rounded-[10px] font-sans text-[22px] font-light tracking-[-0.2px] transition-colors duration-150"
                   style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}
