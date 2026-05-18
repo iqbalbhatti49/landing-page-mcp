@@ -34,7 +34,7 @@ export function ToolsSection() {
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 relative">
 
               {/* Left: text */}
-              <div className="lg:w-[280px] shrink-0 flex flex-col justify-center relative overflow-hidden">
+              <div className="lg:w-[320px] shrink-0 flex flex-col justify-center relative overflow-hidden">
                 <span
                   aria-hidden="true"
                   className="absolute top-0 left-0 font-display font-semibold leading-none text-white select-none pointer-events-none"
@@ -62,7 +62,7 @@ export function ToolsSection() {
 
               {/* Right: widget rendering — matches the in-agent UI */}
               <div className="flex-1 min-w-0">
-                <div className="rounded-2xl overflow-hidden h-[580px] relative px-6 py-3" style={{ background: "#f7f6f3", border: "1px solid rgba(0,0,0,0.07)" }}>
+                <div className="rounded-2xl bg-surface-primary border border-border-primary overflow-hidden h-[520px] relative px-6 py-3">
                   <div className="absolute inset-x-6 inset-y-3 flex flex-col justify-center rounded-xl overflow-hidden">
                     <ToolVisual tool={tool} />
                   </div>
