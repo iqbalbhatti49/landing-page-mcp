@@ -57,7 +57,6 @@ export function Hero() {
                 </>
               )}
             </span>
-            .
           </h1>
 
           <p className="font-sans text-[18px] font-normal leading-[1.7] text-content-secondary m-0 mb-8 max-w-[56ch] tracking-[-0.005em]">
