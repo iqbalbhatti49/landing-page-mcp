@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 
 const SEPARATION = 150;
 const AMOUNTX    = 40;
-const AMOUNTY    = 60;
+const AMOUNTY    = 80;   // more rows to fill height
 const FOV_DEG    = 100;
 const CAM_Y      = 355;
-const CAM_Z      = 1220;
+const CAM_Z      = 6000; // far back so near rows don't overshoot
 
 export function DotWaveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -41,7 +41,8 @@ export function DotWaveCanvas() {
       const scale = fl / dz;
       return {
         sx:    W / 2 + x * scale,
-        sy:    H / 2 - (y - CAM_Y) * scale,
+        // horizon at top edge so grid fills canvas top→bottom
+        sy:    H * 0.05 - (y - CAM_Y) * scale,
         scale,
       };
     }
@@ -91,7 +92,6 @@ export function DotWaveCanvas() {
       ref={canvasRef}
       aria-hidden="true"
       className="block w-full h-full pointer-events-none"
-      style={{ opacity: 1 }}
     />
   );
 }

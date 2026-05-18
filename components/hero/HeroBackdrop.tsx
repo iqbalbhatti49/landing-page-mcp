@@ -7,7 +7,7 @@ export function HeroBackdrop() {
       aria-hidden="true"
     >
       {/* 3D dot wave */}
-      <div className="absolute inset-x-0 bottom-0" style={{ top: "15%" }}>
+      <div className="absolute inset-0">
         <DotWaveCanvas />
       </div>
 
