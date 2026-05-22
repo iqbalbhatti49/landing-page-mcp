@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | Imagine MCP",
   },
   description:
-    "An MCP server for ImagineArt. Eight creative endpoints (text-to-image, video, music, scripts, upscaler, background remover, list, balance) for Claude, Cursor, Cline, Windsurf, and any MCP-compatible client.",
+    "An MCP server for ImagineArt. Six creative endpoints (text-to-image, video, music, upscaler, background remover, balance) for Claude, Cursor, Cline, Hermes, OpenClaw, and any MCP-compatible client.",
   applicationName: "Imagine MCP",
   authors: [{ name: "Vyro AI" }],
   keywords: [
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     siteName: "Imagine MCP",
     title: "Imagine MCP. Creative tools for any agent.",
     description:
-      "An MCP server for ImagineArt. Eight creative endpoints for Claude, Cursor, and any MCP-compatible client.",
+      "An MCP server for ImagineArt. Six creative endpoints for Claude, Cursor, and any MCP-compatible client.",
     images: [{ url: "/imagine-logo.svg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Imagine MCP. Creative tools for any agent.",
     description:
-      "An MCP server for ImagineArt. Eight creative endpoints for any MCP-compatible client.",
+      "An MCP server for ImagineArt. Six creative endpoints for any MCP-compatible client.",
   },
   robots: { index: true, follow: true },
   icons: { icon: "/imagine-logo.svg" },

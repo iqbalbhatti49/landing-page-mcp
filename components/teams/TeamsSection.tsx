@@ -21,7 +21,7 @@ const CARDS = [
   },
   {
     title: "Filmmaking",
-    desc: "From concept to campaign: images, video, script, and score — produced by a single agent from a brief.",
+    desc: "From concept to campaign: images, video, and score — produced by a single agent from a brief.",
     video: "/videos/teams/filmmaking.mp4",
   },
   {

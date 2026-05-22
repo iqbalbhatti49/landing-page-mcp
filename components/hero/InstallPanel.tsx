@@ -6,11 +6,54 @@ import {
   INSTALL_METHODS,
   METHOD_ORDER,
   type MethodId,
+  type StepAction,
 } from "@/lib/data/install-methods";
+
+function StepActionView({ action }: { action: StepAction }) {
+  if (action.type === "copy" && action.layout === "block") {
+    return (
+      <div className="relative bg-neutral-110 border border-border-secondary rounded-lg hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
+        <pre className="font-mono text-[11.5px] leading-[1.55] text-primary-30 overflow-x-auto p-3 pr-[88px] [&::-webkit-scrollbar]:hidden">
+          <code className="whitespace-pre">{action.value}</code>
+        </pre>
+        <div className="absolute top-[6px] right-[6px]">
+          <CopyButton value={action.value} />
+        </div>
+      </div>
+    );
+  }
+
+  if (action.type === "copy") {
+    return (
+      <div className="flex items-center gap-[6px] bg-neutral-110 border border-border-secondary rounded-lg pl-3 pr-[6px] py-[6px] hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
+        <code className="flex-1 min-w-0 font-mono text-[12px] text-primary-30 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden">
+          {action.value}
+        </code>
+        <CopyButton value={action.value} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-neutral-110 border border-border-secondary rounded-lg p-3">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="block w-1.5 h-1.5 rounded-full bg-primary-40" aria-hidden="true" />
+        <span className="font-mono text-[10.5px] font-medium tracking-[0.16em] uppercase text-content-tertiary">
+          {action.agentLabel}
+        </span>
+      </div>
+      <div className="font-sans text-[13px] leading-[1.55] text-content-secondary">
+        {action.body}
+      </div>
+    </div>
+  );
+}
 
 export function InstallPanel() {
   const [active, setActive] = useState<MethodId>("claude");
   const method = INSTALL_METHODS[active];
+  const colsClass =
+    method.steps.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
 
   return (
     <div className="mt-14" id="install">
@@ -40,7 +83,12 @@ export function InstallPanel() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 w-full rounded-2xl overflow-hidden bg-surface-primary border border-border-primary">
+      <div
+        className={
+          "grid grid-cols-1 w-full rounded-2xl overflow-hidden bg-surface-primary border border-border-primary " +
+          colsClass
+        }
+      >
         {method.steps.map((step, i) => (
           <div
             key={step.num}
@@ -60,40 +108,11 @@ export function InstallPanel() {
             <p className="font-sans text-[14px] font-normal leading-[1.55] text-content-secondary m-0 mb-[14px] [&_strong]:text-white [&_strong]:font-medium [&_em]:not-italic [&_em]:text-primary-30 [&_em]:font-medium [&_code]:font-mono [&_code]:text-[12px] [&_code]:font-medium [&_code]:text-primary-30 [&_code]:bg-neutral-110 [&_code]:px-[6px] [&_code]:py-px [&_code]:rounded [&_code]:border [&_code]:border-border-primary">
               {step.body}
             </p>
-            {i === 1 && (
-              method.commandKind === "block" ? (
-                <div className="relative bg-neutral-110 border border-border-secondary rounded-lg hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
-                  <pre className="font-mono text-[11.5px] leading-[1.55] text-primary-30 overflow-x-auto p-3 pr-[88px] [&::-webkit-scrollbar]:hidden">
-                    <code className="whitespace-pre">{method.command}</code>
-                  </pre>
-                  <div className="absolute top-[6px] right-[6px]">
-                    <CopyButton value={method.command} />
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-[6px] bg-neutral-110 border border-border-secondary rounded-lg pl-3 pr-[6px] py-[6px] hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
-                  <code className="flex-1 min-w-0 font-mono text-[12px] text-primary-30 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden">
-                    {method.command}
-                  </code>
-                  <CopyButton value={method.command} />
-                </div>
-              )
-            )}
+            {step.action && <StepActionView action={step.action} />}
           </div>
         ))}
       </div>
 
-      <p className="font-sans text-[14px] text-content-tertiary mt-[18px]">
-        Using Claude Code or Codex? The{" "}
-        <button
-          type="button"
-          onClick={() => setActive("cli")}
-          className="text-primary-30 border-b border-[rgb(165_110_255_/_0.4)] pb-px hover:text-white hover:border-white cursor-pointer"
-        >
-          CLI
-        </button>{" "}
-        works best.
-      </p>
     </div>
   );
 }

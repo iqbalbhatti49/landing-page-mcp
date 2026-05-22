@@ -7,10 +7,9 @@ import { InstallPanel } from "./InstallPanel";
 import { ClientIcon, ClientWordmark, hasWordmark, type ClientId } from "./ClientIcon";
 
 const CLIENTS: { id: ClientId; name: string }[] = [
-  { id: "claude-desktop", name: "Claude Desktop" },
+  { id: "claude-desktop", name: "Claude" },
   { id: "cursor", name: "Cursor" },
   { id: "cline", name: "Cline" },
-  { id: "claude-code", name: "Claude Code" },
   { id: "hermes", name: "Hermes" },
   { id: "openclaw", name: "OpenClaw" },
 ];
@@ -58,7 +57,7 @@ export function Hero() {
           </h1>
 
           <p className="font-sans text-[18px] font-normal leading-[1.7] text-content-secondary m-0 mb-8 max-w-[56ch] tracking-[-0.005em]">
-            An MCP server for ImagineArt. Eight creative endpoints for Claude,
+            An MCP server for ImagineArt. Six creative endpoints for Claude,
             Cursor, and any client that speaks the Model Context Protocol.
           </p>
 

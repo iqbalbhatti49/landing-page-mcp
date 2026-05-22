@@ -3,18 +3,12 @@ export type ClientId =
   | "claude-desktop"
   | "cursor"
   | "cline"
-  | "windsurf"
-  | "continue"
-  | "claude-code"
-  | "zed"
-  | "codex-cli"
   | "hermes"
   | "openclaw";
 
 const WORDMARKS: Partial<Record<ClientId, { src: string; scale?: number }>> = {
-  cursor:   { src: "/agents/wordmarks/cursor.svg" },
-  windsurf: { src: "/agents/wordmarks/windsurf.svg", scale: 0.72 },
-  cline:    { src: "/agents/wordmarks/cline.svg" },
+  cursor: { src: "/agents/wordmarks/cursor.svg" },
+  cline:  { src: "/agents/wordmarks/cline.svg" },
 };
 
 export function hasWordmark(id: ClientId): boolean {
@@ -41,14 +35,7 @@ const iconClass = "inline-block align-middle relative -top-[0.05em] shrink-0 w-[
 export function ClientIcon({ id }: { id: ClientId }) {
   switch (id) {
     case "claude-desktop":
-    case "claude-code":
       return <img src="/agents/claude.svg" alt="" aria-hidden="true" className={iconClass} />;
-    case "continue":
-      return <img src="/agents/continue.png" alt="" aria-hidden="true" className={`${iconClass} rounded-full`} />;
-    case "zed":
-      return <img src="/agents/zed.svg" alt="" aria-hidden="true" className={iconClass} style={{ filter: "brightness(0) invert(1)" }} />;
-    case "codex-cli":
-      return null;
     default:
       return null;
   }

@@ -10,8 +10,6 @@ export type ToolKind =
   | "bg-remove"
   | "upscale-pair"
   | "music"
-  | "script"
-  | "listing"
   | "balance";
 
 export type ToolSpan = "hero" | "wide" | "half";
@@ -57,28 +55,6 @@ export interface MusicTool extends ToolBase {
   duration: string;
 }
 
-export interface ScriptItem {
-  type: "scene" | "action" | "char" | "paren" | "line" | "gap";
-  text: string;
-}
-
-export interface ScriptTool extends ToolBase {
-  kind: "script";
-  items: ScriptItem[];
-}
-
-export interface ListingItem {
-  thumb: string;
-  name: string;
-  badge: string;
-  time: string;
-}
-
-export interface ListingTool extends ToolBase {
-  kind: "listing";
-  items: ListingItem[];
-}
-
 export interface BalanceTool extends ToolBase {
   kind: "balance";
 }
@@ -89,8 +65,6 @@ export type Tool =
   | BgRemoveTool
   | UpscalePairTool
   | MusicTool
-  | ScriptTool
-  | ListingTool
   | BalanceTool;
 
 const T2I_INITIAL = [
@@ -154,68 +128,6 @@ export const TOOLS: Tool[] = [
     poster: `${MUSIC}/images/1.webp`,
     caption: "SYNTH PAD · 110 BPM",
     duration: "0:32",
-  },
-  {
-    kind: "script",
-    span: "half",
-    fn: "imagine.script()",
-    tag: "Script Generation",
-    name: "Brief in, production script out",
-    desc: "Screenplay scenes and ad copy from a single prompt. Structured, formatted, and ready for production.",
-    items: [
-      { type: "scene",  text: "INT. NEON DINER — NIGHT" },
-      { type: "gap",    text: "" },
-      { type: "action", text: "Rain drums the window. A ceiling fan clicks overhead. MAYA CROSS, 30s, sharp eyes behind tired ones, sits across from DETECTIVE COLE." },
-      { type: "gap",    text: "" },
-      { type: "char",   text: "COLE" },
-      { type: "line",   text: "You knew this was coming." },
-      { type: "gap",    text: "" },
-      { type: "char",   text: "MAYA" },
-      { type: "paren",  text: "(exhales slowly)" },
-      { type: "line",   text: "I knew someone like you was coming." },
-      { type: "gap",    text: "" },
-      { type: "action", text: "Cole leans forward. A folded photograph slides across the table." },
-      { type: "gap",    text: "" },
-      { type: "char",   text: "COLE" },
-      { type: "line",   text: "Recognize him?" },
-      { type: "gap",    text: "" },
-      { type: "action", text: "Maya glances down. Something shifts behind her eyes — quick, controlled, gone." },
-      { type: "gap",    text: "" },
-      { type: "char",   text: "MAYA" },
-      { type: "line",   text: "Never seen him." },
-      { type: "gap",    text: "" },
-      { type: "char",   text: "COLE" },
-      { type: "paren",  text: "(leans back)" },
-      { type: "line",   text: "Funny. He's got your number saved under \"home.\"" },
-    ],
-  },
-  {
-    kind: "listing",
-    span: "half",
-    fn: "imagine.list()",
-    tag: "List Generations",
-    name: "Everything you've made, in one place",
-    desc: "Browse and retrieve any generation by type, date, or prompt. Images, videos, music — nothing gets lost.",
-    items: [
-      {
-        thumb: `${SEEDANCE_FRAMES}/13s.webp`,
-        name: "cityscape_4k.mp4",
-        badge: "vid",
-        time: "2m",
-      },
-      {
-        thumb: `${GPT2}/img04_justice.webp`,
-        name: "portrait_01.png",
-        badge: "img",
-        time: "14m",
-      },
-      {
-        thumb: `${GPT2}/img09_tp7.webp`,
-        name: "album_cover.png",
-        badge: "img",
-        time: "1h",
-      },
-    ],
   },
   {
     kind: "balance",

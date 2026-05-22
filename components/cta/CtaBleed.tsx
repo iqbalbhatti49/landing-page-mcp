@@ -42,7 +42,7 @@ export function CtaBleed() {
         </Reveal>
         <Reveal delay={160}>
           <p className="font-sans text-[18px] leading-[1.7] text-content-secondary max-w-[56ch] mb-8">
-            One install, eight tools, any client speaking the Model Context
+            One install, six tools, any client speaking the Model Context
             Protocol. Sign in with your imagine.art account and start calling
             tools from your agent.
           </p>

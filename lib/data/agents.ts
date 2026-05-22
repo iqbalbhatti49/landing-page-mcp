@@ -9,14 +9,9 @@ export interface Agent {
 }
 
 export const AGENTS: Agent[] = [
-  { name: "Claude Desktop", logo: "/agents/claude.svg",   colored: true },
-  { name: "Claude Code",    logo: "/agents/claude.svg",   colored: true },
-  { name: "Cursor",         logo: "/agents/cursor.svg",   wordmark: "/agents/wordmarks/cursor.svg" },
-  { name: "Windsurf",       logo: "/agents/windsurf.svg", wordmark: "/agents/wordmarks/windsurf.svg" },
-  { name: "Cline",          logo: "/agents/cline.png",    wordmark: "/agents/wordmarks/cline.svg" },
-  { name: "Continue",       logo: "/agents/continue.png" },
-  { name: "Zed",            logo: "/agents/zed.svg",      invert: true },
-  { name: "Codex CLI",      logo: "",                     iconOnly: false },
-  { name: "Hermes",         logo: "",                     iconOnly: false },
-  { name: "OpenClaw",       logo: "",                     iconOnly: false },
+  { name: "Claude",   logo: "/agents/claude.svg", colored: true },
+  { name: "Cursor",   logo: "/agents/cursor.svg", wordmark: "/agents/wordmarks/cursor.svg" },
+  { name: "Cline",    logo: "/agents/cline.png",  wordmark: "/agents/wordmarks/cline.svg" },
+  { name: "Hermes",   logo: "",                   iconOnly: false },
+  { name: "OpenClaw", logo: "",                   iconOnly: false },
 ];

@@ -1,8 +1,6 @@
 import { BgRemoverSweep } from "./visualizations/BgRemoverSweep";
 import { UpscaleTwoPane } from "./visualizations/UpscaleTwoPane";
 import { MusicCard } from "./visualizations/MusicCard";
-import { ScriptCard } from "./visualizations/ScriptCard";
-import { ListingRows } from "./visualizations/ListingRows";
 import { BalanceJson } from "./visualizations/BalanceJson";
 import { T2IGrid } from "./visualizations/T2IGrid";
 import { T2VPlayer } from "./visualizations/T2VPlayer";
@@ -39,10 +37,6 @@ export function ToolVisual({ tool }: { tool: Tool }) {
           duration={tool.duration}
         />
       );
-    case "script":
-      return <ScriptCard items={tool.items} />;
-    case "listing":
-      return <ListingRows items={tool.items} />;
     case "balance":
       return <BalanceJson />;
   }

@@ -14,7 +14,7 @@ const jsonLd = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "macOS, Windows, Linux",
   description:
-    "An MCP server for ImagineArt. Eight creative endpoints (text-to-image, text-to-video, music, scripts, upscaler, background remover, list, balance) for Claude, Cursor, Cline, Windsurf, and any MCP-compatible client.",
+    "An MCP server for ImagineArt. Six creative endpoints (text-to-image, text-to-video, music, upscaler, background remover, balance) for Claude, Cursor, Cline, Hermes, OpenClaw, and any MCP-compatible client.",
   offers: {
     "@type": "Offer",
     price: "0",
