@@ -61,12 +61,23 @@ export function InstallPanel() {
               {step.body}
             </p>
             {i === 1 && (
-              <div className="flex items-center gap-[6px] bg-neutral-110 border border-border-secondary rounded-lg pl-3 pr-[6px] py-[6px] hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
-                <code className="flex-1 min-w-0 font-mono text-[12px] text-primary-30 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden">
-                  {method.command}
-                </code>
-                <CopyButton value={method.command} />
-              </div>
+              method.commandKind === "block" ? (
+                <div className="relative bg-neutral-110 border border-border-secondary rounded-lg hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
+                  <pre className="font-mono text-[11.5px] leading-[1.55] text-primary-30 overflow-x-auto p-3 pr-[88px] [&::-webkit-scrollbar]:hidden">
+                    <code className="whitespace-pre">{method.command}</code>
+                  </pre>
+                  <div className="absolute top-[6px] right-[6px]">
+                    <CopyButton value={method.command} />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-[6px] bg-neutral-110 border border-border-secondary rounded-lg pl-3 pr-[6px] py-[6px] hover:border-border-tertiary focus-within:border-primary-50 transition-colors">
+                  <code className="flex-1 min-w-0 font-mono text-[12px] text-primary-30 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden">
+                    {method.command}
+                  </code>
+                  <CopyButton value={method.command} />
+                </div>
+              )
             )}
           </div>
         ))}

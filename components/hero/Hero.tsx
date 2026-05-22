@@ -10,11 +10,7 @@ const CLIENTS: { id: ClientId; name: string }[] = [
   { id: "claude-desktop", name: "Claude Desktop" },
   { id: "cursor", name: "Cursor" },
   { id: "cline", name: "Cline" },
-  { id: "windsurf", name: "Windsurf" },
-  { id: "continue", name: "Continue" },
   { id: "claude-code", name: "Claude Code" },
-  { id: "zed", name: "Zed" },
-  { id: "codex-cli", name: "Codex CLI" },
   { id: "hermes", name: "Hermes" },
   { id: "openclaw", name: "OpenClaw" },
 ];
