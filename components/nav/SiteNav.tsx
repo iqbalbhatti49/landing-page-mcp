@@ -8,7 +8,7 @@ import { IMAGINE_TOOL_LINKS } from "@/lib/data/nav";
 const NAV_LINKS = [
   { label: "Tools",   href: "#tools" },
   { label: "Install", href: "#install" },
-  { label: "Github",  href: "https://github.com/asjad3/landing-page-mcp" },
+  // { label: "GitHub",  href: "https://github.com/asjad3/landing-page-mcp" },
   { label: "Pricing", href: "https://www.imagine.art/subscription" },
 ];
 
