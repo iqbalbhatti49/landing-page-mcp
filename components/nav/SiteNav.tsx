@@ -41,9 +41,9 @@ export function SiteNav() {
             maxWidth:       scrolled ? "1240px" : "100%",
             padding:        scrolled ? "8px 12px" : "10px clamp(40px,12vw,220px)",
             borderRadius:   "16px",
-            background:     scrolled ? "rgba(15,15,15,0.88)" : "transparent",
-            border:         scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
-            backdropFilter: scrolled ? "saturate(180%) blur(72px)" : "none",
+            background:     scrolled ? "rgba(15,15,15,0.70)" : "transparent",
+            border:         scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
+            backdropFilter: scrolled ? "saturate(180%) blur(24px)" : "none",
             boxShadow:      scrolled ? "0 0 0 1px rgba(0,0,0,0.2), 0 4px 6px rgba(0,0,0,0.1), 0 12px 48px rgba(0,0,0,0.3)" : "none",
             transition:     "max-width 0.55s cubic-bezier(0.4,0,0.2,1), padding 0.55s cubic-bezier(0.4,0,0.2,1), background 0.5s cubic-bezier(0.4,0,0.2,1), border-color 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.5s cubic-bezier(0.4,0,0.2,1)",
           }}
