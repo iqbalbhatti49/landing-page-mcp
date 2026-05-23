@@ -8,6 +8,7 @@ import { IMAGINE_TOOL_LINKS } from "@/lib/data/nav";
 const NAV_LINKS = [
   { label: "Tools",   href: "#tools" },
   { label: "Install", href: "#install" },
+  { label: "Github",  href: "https://github.com/asjad3/landing-page-mcp" },
   { label: "Pricing", href: "https://www.imagine.art/subscription" },
 ];
 
@@ -33,7 +34,7 @@ export function SiteNav() {
     <>
       <header
         className="fixed top-0 left-0 right-0 z-[60]"
-        style={{ padding: scrolled ? "10px 0" : "16px 0", transition: "padding 0.3s ease" }}
+        style={{ padding: scrolled ? "10px 20px" : "16px 0", transition: "padding 0.3s ease" }}
       >
         <div
           className="mx-auto flex items-center justify-between"
@@ -50,7 +51,7 @@ export function SiteNav() {
         >
           {/* Logo — kept from existing design */}
           <Link href="https://www.imagine.art/" className="inline-flex items-center gap-[10px] shrink-0 no-underline">
-            <Image src="/imagine-logo.svg" alt="" width={26} height={26} className="w-[26px] h-[26px]" priority />
+            <Image src="/imagine-logo.svg" alt="" width={26} height={26} className="w-[26px] h-[26px] ml-[2px]" priority />
             <span className="font-display text-[18px] font-semibold tracking-[-0.02em] text-white">
               Imagine <span className="text-primary-40 font-semibold">MCP</span>
             </span>
